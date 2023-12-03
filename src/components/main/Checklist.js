@@ -97,7 +97,7 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
   };
 
   return (
-    1 && (
+    fileUploaded && (
       <ChecklistItem>
         <FormSection title="문제 유형 선택">
           <RadioGroup

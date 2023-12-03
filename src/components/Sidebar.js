@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import  useStore  from "../store/store";
 const Sidebar = () => {
   const navigate = useNavigate();
+  const { chatRooms } = useStore(state => ({ chatRooms: state.chatRooms }));
 
   const handleNewChat = () => {
-    // addNewChatRoom();
     navigate("/main");
   };
 
@@ -21,14 +21,14 @@ const Sidebar = () => {
         <PlusButton />
         New chat
       </NewbuttonContainer>
-      {/* <ChatList>
+      <ChatList>
         {chatRooms.map((chat) => (
           <ChatItem key={chat.id} onClick={() => handleChatRoomClick(chat.id)}>
             <Chaticon />
             {chat.name}
           </ChatItem>
         ))}
-      </ChatList> */}
+      </ChatList>
     </SidebarContainer>
   );
 };

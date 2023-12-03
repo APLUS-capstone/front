@@ -5,7 +5,7 @@ import Sidebar from "./components/Sidebar";
 // import ChatRoom from "./pages/chatRoom/chatroom";
 import Main from "./pages/Main";
 // import Loader from "./pages/loader/Loader";
-// import Login from "./pages/login/Login";
+import Login from "./pages/Login";
 import styled from "styled-components";
 function App() {
   return (
@@ -14,7 +14,8 @@ function App() {
         <Sidebar />
         <ContentArea>
           <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/main" element={<Main />} />
           </Routes>
         </ContentArea>
       </MainContainer>

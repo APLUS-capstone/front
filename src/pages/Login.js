@@ -7,9 +7,14 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleLogin = () => {
-    const Rest_api_key = "01edef910fa2573903206bddf92be765";
-    const redirect_uri = "https://aplus-hsdd.netlify.app/main";
-    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
+    const REST_API_KEY = "01edef910fa2573903206bddf92be765";
+    // const redirect_uri = "https://aplus-hsdd.netlify.app/main";
+    const REDIRECT_URI =
+      window.location.hostname === "localhost"
+        ? "http://localhost:3000/login"
+        : "http://54.180.127.147:3000/login";
+
+    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
     window.location.href = kakaoURL;
   };
   const handleEmailChange = (e) => {

@@ -1,0 +1,13 @@
+@font-face {
+    font-family: "SF-Pro-Display-Medium";
+    src: url("../../public/fonts/SF-Pro-Display-Medium.otf") format("opentype");
+  }
+  @font-face {
+    font-family: "SF-Pro-Display-Regular";
+    src: url("../../public/fonts/SF-Pro-Display-Regular.otf") format("opentype");
+  }
+  
+  @font-face {
+    font-family: "SF-Pro-Display-Semibold";
+    src: url("../../public/fonts/SF-Pro-Display-Semibold.otf") format("opentype");
+  }

@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React from "react";
+import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+// import ChatRoom from "./pages/chatRoom/chatroom";
+import Main from "./pages/Main";
+// import Loader from "./pages/loader/Loader";
+// import Login from "./pages/login/Login";
+import styled from "styled-components";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <MainContainer>
+        <Sidebar />
+        <ContentArea>
+          <Routes>
+          <Route path="/" element={<Main />} />
+          </Routes>
+        </ContentArea>
+      </MainContainer>
+    </Router>
   );
 }
 
+
 export default App;
+
+const MainContainer = styled.div`
+  display: flex;
+  height: 100vh;
+`;
+const ContentArea = styled.div`
+  flex-grow: 1;
+  overflow: auto;
+`;

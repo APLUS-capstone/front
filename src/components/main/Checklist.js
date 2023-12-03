@@ -90,14 +90,14 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
     
     setTimeout(() => {
       addNewChatRoom(chatId, PDFname);
-      navigate(`/chatroom/${chatId}`);
+      navigate(`/chatRoom/${chatId}`);
 
     }, 5000);
 
   };
 
   return (
-    fileUploaded && (
+    1 && (
       <ChecklistItem>
         <FormSection title="문제 유형 선택">
           <RadioGroup

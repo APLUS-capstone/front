@@ -17,7 +17,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/chatroom/:chatId" element={<ChatRoom />} />
           <Route path="/main" element={<Main />} />
-          <Route path="/load" element={<Loader />} />
+          <Route path="/loader" element={<Loader />} />
           </Routes>
         </ContentArea>
       </MainContainer>

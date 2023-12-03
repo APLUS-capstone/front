@@ -1,7 +1,7 @@
 //문제 유형 선택하는 부분
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import  useStore  from "../../store/store";
+import useStore from "../../store/store";
 import RadioGroup from "../RadioGroup";
 import { CustomBtnText } from "../CustomButtons";
 import styled from "styled-components";
@@ -12,7 +12,7 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
   const [languageType, setLanguageType] = useState("1");
   const [optionsCount, setOptionsCount] = useState(0);
   const [questionsCount, setQuestionsCount] = useState("");
-  const { PDFname } = useStore(state => state);
+  const { PDFname } = useStore((state) => state);
   const navigate = useNavigate();
 
   const handleQuestionTypeChange = (e) => {
@@ -47,7 +47,10 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
     default:
       questionTypeValue = 0; // 기본값 혹은 오류 처리
   }
-  const { chatId, addNewChatRoom } = useStore(state => ({ chatId: state.chatId, addNewChatRoom: state.addNewChatRoom }));
+  const { chatId, addNewChatRoom } = useStore((state) => ({
+    chatId: state.chatId,
+    addNewChatRoom: state.addNewChatRoom,
+  }));
   //각각 입력받은 문제입력 form 을 확인하는 함수
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -61,7 +64,7 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
       language: parseInt(languageType, 10), //정수값
     };
     console.log(QuestionData);
-    
+
     //나중에 DB에 보내야하는 부분이 될것임 (사용자가 입력한 문제 폼)
     // fetch("API주소", {
     //   method: "POST",
@@ -79,7 +82,7 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
     //     console.error("Error:", error);
     //     setIsLoading(false); //에러면
     //   });
-    
+
     setIsLoading(false);
     //일단 임시로 loader 에 5초 있다가, chatroom으로 이동하게
     // if (chatId) {
@@ -87,17 +90,15 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
     //   addNewChatRoom(chatId);
     // }
     navigate("/loader");
-    
+
     setTimeout(() => {
       addNewChatRoom(chatId, PDFname);
       navigate(`/chatRoom/${chatId}`);
-
     }, 5000);
-
   };
 
   return (
-    fileUploaded && (
+    1 && (
       <ChecklistItem>
         <FormSection title="문제 유형 선택">
           <RadioGroup

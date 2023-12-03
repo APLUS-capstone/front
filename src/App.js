@@ -2,9 +2,9 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
-// import ChatRoom from "./pages/chatRoom/chatroom";
+import ChatRoom from "./pages/chatRoom/chatroom";
 import Main from "./pages/Main";
-// import Loader from "./pages/loader/Loader";
+import Loader from "./pages/loader/Loader";
 import Login from "./pages/Login";
 import styled from "styled-components";
 function App() {
@@ -15,7 +15,9 @@ function App() {
         <ContentArea>
           <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/chatroom/:chatId" element={<ChatRoom />} />
           <Route path="/main" element={<Main />} />
+          <Route path="/load" element={<Loader />} />
           </Routes>
         </ContentArea>
       </MainContainer>

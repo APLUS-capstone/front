@@ -1,17 +1,18 @@
 //문제 유형 선택하는 부분
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import  useStore  from "../../store/store";
 import RadioGroup from "../RadioGroup";
 import { CustomBtnText } from "../CustomButtons";
 import styled from "styled-components";
 import FormSection from "./FormSection";
-import  useStore  from "../../store/store";
+
 const Checklist = ({ fileUploaded, setIsLoading }) => {
   const [questionTypeRadio, setQuestionTypeRadio] = useState("multipleChoice");
   const [languageType, setLanguageType] = useState("1");
   const [optionsCount, setOptionsCount] = useState(0);
   const [questionsCount, setQuestionsCount] = useState("");
-
+  const { PDFname } = useStore(state => state);
   const navigate = useNavigate();
 
   const handleQuestionTypeChange = (e) => {
@@ -60,7 +61,7 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
       language: parseInt(languageType, 10), //정수값
     };
     console.log(QuestionData);
-
+    
     //나중에 DB에 보내야하는 부분이 될것임 (사용자가 입력한 문제 폼)
     // fetch("API주소", {
     //   method: "POST",
@@ -78,7 +79,7 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
     //     console.error("Error:", error);
     //     setIsLoading(false); //에러면
     //   });
-
+    
     setIsLoading(false);
     //일단 임시로 loader 에 5초 있다가, chatroom으로 이동하게
     // if (chatId) {
@@ -86,8 +87,9 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
     //   addNewChatRoom(chatId);
     // }
     navigate("/loader");
+    
     setTimeout(() => {
-      addNewChatRoom(chatId, "fileName");
+      addNewChatRoom(chatId, PDFname);
       navigate(`/chatroom/${chatId}`);
 
     }, 5000);

@@ -6,7 +6,7 @@ import  useStore  from "../store/store";
 const Sidebar = () => {
   const navigate = useNavigate();
   const { chatRooms } = useStore(state => ({ chatRooms: state.chatRooms }));
-
+  const { addNewChatRoom } = useStore(state => ({ addNewChatRoom: state.addNewChatRoom }));
   const handleNewChat = () => {
     navigate("/main");
   };
@@ -14,11 +14,17 @@ const Sidebar = () => {
   const handleChatRoomClick = (chatId) => {
     navigate(`/chatRoom/${chatId}`);
   };
+  const handleNewChatroomTest = (chatId) =>{
+    
+    addNewChatRoom(1, 'test');
+    navigate(`/chatRoom/${chatId}`);
+    //test code plusbutton onclick
+  }
   return (
     <SidebarContainer>
       <NameContainer>APLUS</NameContainer>
       <NewbuttonContainer onClick={handleNewChat}>
-        <PlusButton />
+        <PlusButton onClick={() =>handleNewChatroomTest(1)}/> 
         New chat
       </NewbuttonContainer>
       <ChatList>

@@ -1,8 +1,17 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import Checklist from "../components/main/Checklist";
 
 const Main = () => {
-    return "Main";
+  const [fileUploaded, setFileUploaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+    return (
+      <MainContainer>
+        <Checklist fileUploaded={fileUploaded} setIsLoading={setIsLoading} />
+      </MainContainer>
+    
+    );
 }
 export default Main;
 const MainContainer = styled.div`

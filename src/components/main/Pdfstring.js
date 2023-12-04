@@ -3,11 +3,13 @@ import styled from "styled-components";
 import { CustomBtnText } from "../CustomButtons";
 import useStore from "../../store/store";
 import { ReactComponent as DownButton } from "../../assets/images/downArrow.svg";
+import axios from "axios";
+
 //파일 업로드 하는 부분
 
-const PdfString = ({onFileUpload}) => {
+const PdfString = ({ onFileUpload }) => {
   const [selectedFile, setSelectedFile] = useState(null);
-  const { setPDFtoString, PDFtoString, setChatId, setPDFName} = useStore(); // Zustand 스토어의 상태 및 함수 사용
+  const { setPDFtoString, PDFtoString, setChatId, setPDFName } = useStore(); // Zustand 스토어의 상태 및 함수 사용
   const [send, setSend] = useState(null);
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
@@ -17,39 +19,40 @@ const PdfString = ({onFileUpload}) => {
   };
 
   const handleSendFile = async (e) => {
-    //여기서 이제 파일을 백으로 보냄
-    //FormData 객체에 담아서 보낸다-> 일단 예시 내용 담아둠
+    //여기서 이제 파일을 FormData 객체에 담아서 보낸다
     e.preventDefault();
+
     if (selectedFile) {
       //선텍된 파일이 있는 경우에만
       e.preventDefault();
       onFileUpload(true); // 파일 보내짐
-      setSend(true)
-      const tempChatId = Date.now(); //임시 chatid생성
+      setSend(true);
       const tempName = selectedFile.name.replace(/\.pdf$/i, ""); //임시 파일 이름
-      // console.log(selectedFile);
+      console.log(selectedFile);
+      // const BASE_URL = "http://3.35.98.162:8080";
+      const formData = new FormData();
+      const json = JSON.stringify({
+        userUid: 1,
+      });
 
-      // const formData = new FormData();
-      // formData.append("userId", userID);
-      // formData.append("file", selectedFile);
+      const blob = new Blob([json], { type: "application/json" });
+      formData.append("userUid", blob);
+      formData.append("pdf", selectedFile);
 
-      // axios({
-      //   method: "post",
-      //   url: "여기에 백 api 주소",
-      //   data: formData,
-      // })
-      //   .then((result) => {
-      //     console.log("요청성공");
-      // 여기서 타입 바꿔주면 됨....
-      //     console.log(result);
-      //   })
-      //   .catch((error) => {
-      //     console.log("요청실패");
-      //     console.log(error);
-      //   });
-      setChatId(tempChatId);
-      setPDFName(tempName);
-      setPDFtoString("백엔드로부터 받은 문자열: aksdjcnaksdjcnkascnsjcn"); // 임시로 문자열 설정
+      fetch("http://3.35.98.162:8080/pdf/save", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // console.log(data.roomUid);
+          // console.log(data.pdfString);
+          setChatId(data.roomUid);
+          setPDFName(tempName);
+          setPDFtoString(data.pdfString);
+        })
+        .catch((error) => console.error("Error:", error));
+      ///
     } else {
       //선택된 파일이 없음
       console.log("No file selected");

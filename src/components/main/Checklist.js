@@ -46,7 +46,7 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
     default:
       questionTypeValue = 0; // 기본값 혹은 오류 처리
   }
-  const { chatId, addNewChatRoom,pdfName } = useStore((state) => ({
+  const { chatId, addNewChatRoom, pdfName } = useStore((state) => ({
     chatId: state.chatId,
     addNewChatRoom: state.addNewChatRoom,
     pdfName: state.pdfName,
@@ -57,44 +57,54 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
     setIsLoading(true);
 
     const QuestionData = {
-      questionType: questionTypeValue,
-      optionsCount:
+      roomUid: 1,
+      type: questionTypeValue,
+      number:
         questionTypeRadio === "multipleChoice" ? parseInt(optionsCount, 10) : 0,
-      questionsCount: parseInt(questionsCount, 10) || 0, //정수값
+      choice: parseInt(questionsCount, 10) || 0, //정수값
       language: parseInt(languageType, 10), //정수값
     };
-    console.log(QuestionData);
 
-    //나중에 DB에 보내야하는 부분이 될것임 (사용자가 입력한 문제 폼)
-    // fetch("API주소", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(QuestionData),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setIsLoading(false); //이제 로딩 넘추고
-    //     navigate("/chatroom/${key}"); // chatroom으로 이동
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error:", error);
-    //     setIsLoading(false); //에러면
-    //   });
+    //나중에 DB에 보내야하는 부분 (사용자가 입력한 문제 폼)
+    fetch("http://3.35.98.162:8080/pdf/option", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(QuestionData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setIsLoading(false); // 로딩 상태 업데이트
 
-    setIsLoading(false);
+        // 서버 응답에서 list 배열 -> 여기에 질문 & 답 & 해설
+        const questionsList = data.list || [];
+        console.log(questionsList); // list 배열을 콘솔에 출력
+
+        questionsList.forEach((question) => {
+          console.log(question.question); // 각 질문 내용 출력
+          console.log(question.answer); // 각 질문의 답변 출력
+          console.log(question.solution); // 각 질문의 해설 출력
+        });
+
+        navigate(`/chatroom/${1}`); // chatroom으로 이동 - 일단 1
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setIsLoading(false); // 에러 발생 시 로딩 상태 업데이트
+      });
+
     //일단 임시로 loader 에 5초 있다가, chatroom으로 이동하게
     // if (chatId) {
     //   navigate(`/chatroom/${chatId}`);
     //   addNewChatRoom(chatId);
     // }
-    navigate("/loader");
+    // navigate("/loader");
 
-    setTimeout(() => {
-      addNewChatRoom(chatId, pdfName);
-      navigate(`/chatRoom/${chatId}`);
-    }, 5000);
+    // setTimeout(() => {
+    //   addNewChatRoom(chatId, pdfName);
+    //   navigate(`/chatRoom/${chatId}`);
+    // }, 5000);
   };
 
   return (
@@ -157,8 +167,6 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
 const ChecklistItem = styled.div`
   display: flex;
   flex-direction: column;
-
-  /* border: 1px solid rgb(159, 159, 160); */
 `;
 const InputText = styled.input`
   max-width: 190px;

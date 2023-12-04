@@ -2,16 +2,47 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Checklist from "../components/main/Checklist";
 import PdfString from "../components/main/Pdfstring";
-
+import axios from "axios";
+import { useEffect } from "react";
 const Main = () => {
   const [fileUploaded, setFileUploaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const handleFileUpload = () =>{
+  const BASE_URL = "http://3.35.98.162:8080";
+  const handleFileUpload = () => {
     setFileUploaded(true);
-  }
+  };
+
+  useEffect(() => {
+    const fetchTest = async () => {
+      const url = `${BASE_URL}/chatroom/history`;
+      try {
+        const response = await axios.get(
+          `${url}/1/1`
+          // headers: {
+          //   accept: "application/json",
+          // },
+        );
+        // const url = `${BASE_URL}/chatroom/uid`;
+        // try {
+        //   const response = await axios.get(
+        //     `${url}/1`
+        //     // headers: {
+        //     //   accept: "application/json",
+        //     // },
+        //   );
+
+        console.log(response.data.list);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchTest();
+  }, []);
+
   return (
     <MainContainer>
-      <PdfString onFileUpload = {handleFileUpload} />
+      <PdfString onFileUpload={handleFileUpload} />
       <Checklist fileUploaded={fileUploaded} setIsLoading={setIsLoading} />
     </MainContainer>
   );

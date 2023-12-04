@@ -43,7 +43,7 @@ const Main = () => {
   return (
     <MainContainer>
       <PdfString onFileUpload={handleFileUpload} />
-      <Checklist fileUploaded={fileUploaded} setIsLoading={setIsLoading} />
+      <Checklist fileUploaded={fileUploaded} />
     </MainContainer>
   );
 };

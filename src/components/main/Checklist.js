@@ -6,8 +6,10 @@ import RadioGroup from "../RadioGroup";
 import { CustomBtnText } from "../CustomButtons";
 import styled from "styled-components";
 import FormSection from "./FormSection";
+import Loader from "../../pages/loader/Loader";
+const Checklist = ({ fileUploaded }) => {
+  const [isLoading, setIsLoading] = useState(false);
 
-const Checklist = ({ fileUploaded, setIsLoading }) => {
   const [questionTypeRadio, setQuestionTypeRadio] = useState("multipleChoice");
   const [languageType, setLanguageType] = useState("1");
   const [optionsCount, setOptionsCount] = useState(0);
@@ -57,7 +59,7 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
     setIsLoading(true);
 
     const QuestionData = {
-      roomUid: 1,
+      roomUid: chatId,
       type: questionTypeValue,
       number:
         questionTypeRadio === "multipleChoice" ? parseInt(optionsCount, 10) : 0,
@@ -79,7 +81,7 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
 
         // 서버 응답에서 list 배열 -> 여기에 질문 & 답 & 해설
         const questionsList = data.list || [];
-        console.log(questionsList); // list 배열을 콘솔에 출력
+        console.log(questionsList);
 
         questionsList.forEach((question) => {
           console.log(question.question); // 각 질문 내용 출력
@@ -87,7 +89,15 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
           console.log(question.solution); // 각 질문의 해설 출력
         });
 
-        navigate(`/chatroom/${1}`); // chatroom으로 이동 - 일단 1
+        if (questionsList.length > 0) {
+          // 새로운 채팅방 데이터 추가
+          addNewChatRoom(chatId, pdfName, questionsList);
+          // 해당 채팅방으로 이동
+          navigate(`/chatroom/${chatId}`);
+        } else {
+          // 오류 처리 혹은 적절한 사용자 피드백
+          console.error("No questions received from the server");
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -109,57 +119,63 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
 
   return (
     fileUploaded && (
-      <ChecklistItem>
-        <FormSection title="문제 유형 선택">
-          <RadioGroup
-            name="questionType"
-            options={[
-              { value: "multipleChoice", label: "객관식" },
-              { value: "essayQuestion", label: "주관식" },
-              { value: "shortAnswer", label: "단답형" },
-            ]}
-            selectedValue={questionTypeRadio}
-            onChange={handleQuestionTypeChange}
-          />
-        </FormSection>
+      <div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <ChecklistItem>
+            <FormSection title="문제 유형 선택">
+              <RadioGroup
+                name="questionType"
+                options={[
+                  { value: "multipleChoice", label: "객관식" },
+                  { value: "essayQuestion", label: "주관식" },
+                  { value: "shortAnswer", label: "단답형" },
+                ]}
+                selectedValue={questionTypeRadio}
+                onChange={handleQuestionTypeChange}
+              />
+            </FormSection>
 
-        {questionTypeRadio === "multipleChoice" && (
-          <FormSection title="보기 개수">
-            <InputText
-              type="number"
-              placeholder="선지 개수 입력"
-              value={optionsCount}
-              onChange={handleOptionsCountChange}
+            {questionTypeRadio === "multipleChoice" && (
+              <FormSection title="보기 개수">
+                <InputText
+                  type="number"
+                  placeholder="선지 개수 입력"
+                  value={optionsCount}
+                  onChange={handleOptionsCountChange}
+                />
+              </FormSection>
+            )}
+
+            <FormSection title="문제수 입력">
+              <InputText
+                type="text"
+                placeholder="10"
+                value={questionsCount}
+                onChange={handleQuestionsCountChange}
+              />
+            </FormSection>
+
+            <FormSection title="언어 선택">
+              <RadioGroup
+                name="languageType"
+                options={[
+                  { value: "1", label: "한국어" },
+                  { value: "2", label: "영어" },
+                ]}
+                selectedValue={languageType}
+                onChange={handleLanguageTypeChange}
+              />
+            </FormSection>
+            <CustomBtnText
+              text="Create Question"
+              textAfter="✔️"
+              onClick={handleSubmit}
             />
-          </FormSection>
+          </ChecklistItem>
         )}
-
-        <FormSection title="문제수 입력">
-          <InputText
-            type="text"
-            placeholder="10"
-            value={questionsCount}
-            onChange={handleQuestionsCountChange}
-          />
-        </FormSection>
-
-        <FormSection title="언어 선택">
-          <RadioGroup
-            name="languageType"
-            options={[
-              { value: "1", label: "한국어" },
-              { value: "2", label: "영어" },
-            ]}
-            selectedValue={languageType}
-            onChange={handleLanguageTypeChange}
-          />
-        </FormSection>
-        <CustomBtnText
-          text="Create Question"
-          textAfter="✔️"
-          onClick={handleSubmit}
-        />
-      </ChecklistItem>
+      </div>
     )
   );
 };

@@ -5,10 +5,10 @@ import useStore from "../../store/store";
 import { ReactComponent as DownButton } from "../../assets/images/downArrow.svg";
 //파일 업로드 하는 부분
 
-const PdfString = () => {
+const PdfString = ({onFileUpload}) => {
   const [selectedFile, setSelectedFile] = useState(null);
-  const { setPDFtoString, PDFtoString } = useStore(); // Zustand 스토어의 상태 및 함수 사용
-  const [send, SetSend] = useState(null);
+  const { setPDFtoString, PDFtoString, setChatId } = useStore(); // Zustand 스토어의 상태 및 함수 사용
+  const [send, setSend] = useState(null);
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
       e.preventDefault();
@@ -23,8 +23,8 @@ const PdfString = () => {
     if (selectedFile) {
       //선텍된 파일이 있는 경우에만
       e.preventDefault();
-      SetSend(true); // 파일 보내짐
-
+      onFileUpload(true); // 파일 보내짐
+      setSend(true)
       const tempChatId = Date.now(); //임시 chatid생성
 
       // console.log(selectedFile);
@@ -47,6 +47,7 @@ const PdfString = () => {
       //     console.log("요청실패");
       //     console.log(error);
       //   });
+      setChatId(tempChatId);
       setPDFtoString("백엔드로부터 받은 문자열: aksdjcnaksdjcnkascnsjcn"); // 임시로 문자열 설정
     } else {
       //선택된 파일이 없음

@@ -6,10 +6,12 @@ import PdfString from "../components/main/Pdfstring";
 const Main = () => {
   const [fileUploaded, setFileUploaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const handleFileUpload = () =>{
+    setFileUploaded(true);
+  }
   return (
     <MainContainer>
-      <PdfString />
+      <PdfString onFileUpload = {handleFileUpload} />
       <Checklist fileUploaded={fileUploaded} setIsLoading={setIsLoading} />
     </MainContainer>
   );

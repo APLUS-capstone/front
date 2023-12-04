@@ -14,17 +14,11 @@ const Sidebar = () => {
   const handleChatRoomClick = (chatId) => {
     navigate(`/chatRoom/${chatId}`);
   };
-  const handleNewChatroomTest = (chatId) =>{
-    
-    addNewChatRoom(1, 'test');
-    navigate(`/chatRoom/${chatId}`);
-    //test code plusbutton onclick
-  }
   return (
     <SidebarContainer>
-      <NameContainer>APLUS</NameContainer>
+      <NameContainer onClick={handleNewChat} >APLUS</NameContainer>
       <NewbuttonContainer onClick={handleNewChat}>
-        <PlusButton onClick={() =>handleNewChatroomTest(1)}/> 
+        <PlusButton /> 
         New chat
       </NewbuttonContainer>
       <ChatList>
@@ -101,7 +95,7 @@ const ChatItem = styled.div`
   background: #45504f;
   border-radius: 0.5rem;
   font-size: 1rem;
-  height: 3vh;
+  height: 5vh;
   color: #b3b3b3;
 `;
 

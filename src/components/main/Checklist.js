@@ -12,7 +12,6 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
   const [languageType, setLanguageType] = useState("1");
   const [optionsCount, setOptionsCount] = useState(0);
   const [questionsCount, setQuestionsCount] = useState("");
-  const { PDFname } = useStore((state) => state);
   const navigate = useNavigate();
 
   const handleQuestionTypeChange = (e) => {
@@ -47,9 +46,10 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
     default:
       questionTypeValue = 0; // 기본값 혹은 오류 처리
   }
-  const { chatId, addNewChatRoom } = useStore((state) => ({
+  const { chatId, addNewChatRoom,pdfName } = useStore((state) => ({
     chatId: state.chatId,
     addNewChatRoom: state.addNewChatRoom,
+    pdfName: state.pdfName,
   }));
   //각각 입력받은 문제입력 form 을 확인하는 함수
   const handleSubmit = (e) => {
@@ -92,7 +92,7 @@ const Checklist = ({ fileUploaded, setIsLoading }) => {
     navigate("/loader");
 
     setTimeout(() => {
-      addNewChatRoom(chatId, PDFname);
+      addNewChatRoom(chatId, pdfName);
       navigate(`/chatRoom/${chatId}`);
     }, 5000);
   };

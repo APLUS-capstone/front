@@ -3,6 +3,8 @@ import styled from "styled-components";
 import WrongIcon from "../../assets/images/wrongIcon.png"; //wrongIcon은 svg 변환 안돼서 그냥 png로
 import { ReactComponent as CorrectIcon } from "../../assets/images/answerGrade.svg";
 import { CustomBtn } from "../../components/CustomButtons";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 const dummy_questions = [
   {
     question:
@@ -44,6 +46,40 @@ const dummy_questions = [
 const Chatroom = () => {
   const [answers, setAnswers] = useState({});
   const [results, setResults] = useState(null);
+  const location = useLocation();
+  const chatId = location.pathname.split("/")[2];
+  console.log(chatId); //chatID 받아오는 부분
+
+  const saveToLocalStorage = (key, value) => {
+    localStorage.setItem(key, JSON.stringify(value));
+  };
+
+  const loadFromLocalStorage = (key) => {
+    const storedData = localStorage.getItem(key);
+    return storedData ? JSON.parse(storedData) : null;
+  };
+
+  useEffect(() => {
+    const storedAnswers = loadFromLocalStorage(`${chatId}-answers`);
+    let storedResults = loadFromLocalStorage(`${chatId}-results`);
+
+    if (storedAnswers) {
+      setAnswers(storedAnswers);
+      setResults(storedResults);
+    } else {
+      //아직 answer 에 아무것도 안들어왔으면,
+      setAnswers({});
+      setResults(null);
+    }
+  }, [chatId]);
+
+  useEffect(() => {
+    saveToLocalStorage(`${chatId}-answers`, answers);
+  }, [answers, chatId]);
+
+  useEffect(() => {
+    saveToLocalStorage(`${chatId}-results`, results);
+  }, [results, chatId]);
 
   //객관식 문제가 오면 a,b,c,d 기준으로 띄어쓰기 해줘야함
   const formatQuestionText = (text, questionIndex) => {

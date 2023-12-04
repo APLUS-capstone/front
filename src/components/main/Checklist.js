@@ -7,8 +7,8 @@ import { CustomBtnText } from "../CustomButtons";
 import styled from "styled-components";
 import FormSection from "./FormSection";
 import Loader from "../../pages/loader/Loader";
-const Checklist = ({ fileUploaded }) => {
-  const [isLoading, setIsLoading] = useState(false);
+const Checklist = ({ fileUploaded, setIsLoading }) => {
+  const [isLoading2, setIsLoading2] = useState(false);
 
   const [questionTypeRadio, setQuestionTypeRadio] = useState("multipleChoice");
   const [languageType, setLanguageType] = useState("1");
@@ -57,7 +57,7 @@ const Checklist = ({ fileUploaded }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-
+    setIsLoading2(true);
     const QuestionData = {
       roomUid: chatId,
       type: questionTypeValue,
@@ -77,6 +77,7 @@ const Checklist = ({ fileUploaded }) => {
     })
       .then((response) => response.json())
       .then((data) => {
+        setIsLoading2(false);
         setIsLoading(false); // 로딩 상태 업데이트
 
         // 서버 응답에서 list 배열 -> 여기에 질문 & 답 & 해설
@@ -98,9 +99,12 @@ const Checklist = ({ fileUploaded }) => {
           // 오류 처리 혹은 적절한 사용자 피드백
           console.error("No questions received from the server");
         }
+
+        navigate(`/chatroom/${chatId}`); // chatroom으로 이동 - 일단 1
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("Error: ", error);
+        setIsLoading2(false);
         setIsLoading(false); // 에러 발생 시 로딩 상태 업데이트
       });
 
@@ -120,7 +124,7 @@ const Checklist = ({ fileUploaded }) => {
   return (
     fileUploaded && (
       <div>
-        {isLoading ? (
+        {isLoading2 ? (
           <Loader />
         ) : (
           <ChecklistItem>

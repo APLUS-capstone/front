@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Checklist from "../components/main/Checklist";
 import PdfString from "../components/main/Pdfstring";
+import Loader from "./loader/Loader";
 import axios from "axios";
 import { useEffect } from "react";
 const Main = () => {
@@ -12,38 +13,42 @@ const Main = () => {
     setFileUploaded(true);
   };
 
-  useEffect(() => {
-    const fetchTest = async () => {
-      const url = `${BASE_URL}/chatroom/history`;
-      try {
-        const response = await axios.get(
-          `${url}/1/1`
-          // headers: {
-          //   accept: "application/json",
-          // },
-        );
-        // const url = `${BASE_URL}/chatroom/uid`;
-        // try {
-        //   const response = await axios.get(
-        //     `${url}/1`
-        //     // headers: {
-        //     //   accept: "application/json",
-        //     // },
-        //   );
+  // useEffect(() => {
+  //   const fetchTest = async () => {
+  //     const url = `${BASE_URL}/chatroom/history`;
+  //     try {
+  //       const response = await axios.get(
+  //         `${url}/1/1`
+  //         // headers: {
+  //         //   accept: "application/json",
+  //         // },
+  //       );
+  //       // const url = `${BASE_URL}/chatroom/uid`;
+  //       // try {
+  //       //   const response = await axios.get(
+  //       //     `${url}/1`
+  //       //     // headers: {
+  //       //     //   accept: "application/json",
+  //       //     // },
+  //       //   );
 
-        console.log(response.data.list);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
+  //       console.log(response.data.list);
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //     }
+  //   };
 
-    fetchTest();
-  }, []);
+  //   fetchTest();
+  // }, []);
 
   return (
     <MainContainer>
-      <PdfString onFileUpload={handleFileUpload} />
-      <Checklist fileUploaded={fileUploaded} />
+      {!isLoading && <PdfString onFileUpload={handleFileUpload} />}
+      <Checklist
+        fileUploaded={fileUploaded}
+        setIsLoading={setIsLoading} // isLoading 상태 업데이트 함수 전달
+      />
+      {isLoading && <Loader />}
     </MainContainer>
   );
 };

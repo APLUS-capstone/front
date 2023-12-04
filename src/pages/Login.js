@@ -8,11 +8,10 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const handleLogin = () => {
     const REST_API_KEY = "01edef910fa2573903206bddf92be765";
-    // const redirect_uri = "https://aplus-hsdd.netlify.app/main";
     const REDIRECT_URI =
       window.location.hostname === "localhost"
         ? "http://localhost:3000/main"
-        : "https://aplus-hsdd.netlify.app/main";
+        : "https://hsdd-aplus.netlify.app/main";
 
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
     window.location.href = kakaoURL;

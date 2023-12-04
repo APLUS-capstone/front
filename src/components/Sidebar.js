@@ -2,11 +2,13 @@ import styled from "styled-components";
 import { ReactComponent as PlusButton } from "../assets/images/plus.svg";
 import { ReactComponent as ChatIcon } from "../assets/images/textballon.svg";
 import { useNavigate } from "react-router-dom";
-import  useStore  from "../store/store";
+import useStore from "../store/store";
 const Sidebar = () => {
   const navigate = useNavigate();
-  const { chatRooms } = useStore(state => ({ chatRooms: state.chatRooms }));
-  const { addNewChatRoom } = useStore(state => ({ addNewChatRoom: state.addNewChatRoom }));
+  const { chatRooms } = useStore((state) => ({ chatRooms: state.chatRooms }));
+  const { addNewChatRoom } = useStore((state) => ({
+    addNewChatRoom: state.addNewChatRoom,
+  }));
   const handleNewChat = () => {
     navigate("/main");
   };
@@ -16,9 +18,9 @@ const Sidebar = () => {
   };
   return (
     <SidebarContainer>
-      <NameContainer onClick={handleNewChat} >APLUS</NameContainer>
+      <NameContainer onClick={handleNewChat}>APLUS</NameContainer>
       <NewbuttonContainer onClick={handleNewChat}>
-        <PlusButton /> 
+        <PlusButton />
         New chat
       </NewbuttonContainer>
       <ChatList>
@@ -97,6 +99,9 @@ const ChatItem = styled.div`
   font-size: 1rem;
   height: 5vh;
   color: #b3b3b3;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export default Sidebar;

@@ -62,17 +62,16 @@ const Chatroom = () => {
   useEffect(() => {
     const storedAnswers = loadFromLocalStorage(`${chatId}-answers`);
     let storedResults = loadFromLocalStorage(`${chatId}-results`);
-
-    if (storedAnswers) {
+    console.log(`${chatId}-answers`);
+    console.log("stored", storedAnswers);
+    if (storedAnswers !== null) {
       setAnswers(storedAnswers);
       setResults(storedResults);
     } else {
-      //아직 answer 에 아무것도 안들어왔으면,
       setAnswers({});
       setResults(null);
     }
   }, [chatId]);
-
   useEffect(() => {
     saveToLocalStorage(`${chatId}-answers`, answers);
   }, [answers, chatId]);

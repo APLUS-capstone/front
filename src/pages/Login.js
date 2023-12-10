@@ -11,7 +11,7 @@ export default function Login() {
     const REDIRECT_URI =
       window.location.hostname === "localhost"
         ? "http://localhost:3000/main"
-        : "https://hsdd-aplus.netlify.app/main";
+        : "http://13.124.55.154:8000/main";
 
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
     window.location.href = kakaoURL;

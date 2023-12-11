@@ -15,3 +15,15 @@ ChatGPT를 활용한 강의 자료 분석 및 맞춤형 시험 문제 제작 웹
 
 ## project flow
 <img width="644" alt="image" src="https://github.com/APLUS-capstone/front/assets/82135534/ee21bc19-1ab9-48eb-b1da-1b72683f388d">
+
+## 구현 결과 화면
+
+<img width="700" alt="스크린샷 2023-12-11 오후 4 53 58" src="https://github.com/APLUS-capstone/front/assets/82135534/428f6388-73e2-4b34-b477-5d345c0da5ec">
+<img width="700" alt="스크린샷 2023-12-11 오후 4 54 07" src="https://github.com/APLUS-capstone/front/assets/82135534/0e6748f9-6f0c-45e3-b1ae-aad5365a4906">
+
+
+## 실용성
+
+<img width="700" alt="image" src="https://github.com/APLUS-capstone/front/assets/82135534/d2f806d2-8420-4fda-bc9c-a4896fb96579">
+
+
